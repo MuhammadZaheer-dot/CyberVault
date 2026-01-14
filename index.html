@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CyberVault</title>
+<style>
+body{
+  margin:0;
+  font-family:Consolas, monospace;
+  background:black;
+  color:#00ffcc;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* Matrix background */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* Main box */
+header{
+  padding:100px 20px;
+}
+
+h1{
+  font-size:60px;
+  letter-spacing:4px;
+  text-shadow:0 0 20px #00ffcc;
+}
+
+p{
+  font-size:20px;
+  opacity:0.8;
+  margin-top:10px;
+}
+
+/* Typing effect */
+#typing{
+  margin-top:30px;
+  font-size:18px;
+  height:30px;
+}
+
+/* Button */
+button{
+  margin-top:40px;
+  padding:15px 45px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:#00ffcc;
+  color:black;
+  cursor:pointer;
+  box-shadow:0 0 20px #00ffcc;
+  transition:0.3s;
+}
+button:hover{
+  background:#00ccaa;
+  box-shadow:0 0 40px #00ffcc;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<header>
+<h1>⚡ CyberVault</h1>
+<p>Secure Java Banking Web Application</p>
+
+<div id="typing"></div>
+
+<button>Enter Secure System</button>
+</header>
+
+<script>
+/* MATRIX EFFECT */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = [];
+
+for(let x = 0; x < columns; x++)
+  drops[x] = 1;
+
+function draw(){
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle = "#00ffcc";
+  ctx.font = fontSize + "px monospace";
+
+  for(let i=0;i<drops.length;i++){
+    const text = letters.charAt(Math.floor(Math.random()*letters.length));
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+    if(drops[i]*fontSize > canvas.height && Math.random()>0.975)
+      drops[i]=0;
+
+    drops[i]++;
+  }
+}
+setInterval(draw,33);
+
+/* TYPING EFFECT */
+const text = [
+  "Initializing secure connection...",
+  "Bypassing firewall layers...",
+  "Encrypting banking modules...",
+  "Access Granted ✔"
+];
+
+let line = 0;
+let char = 0;
+const speed = 60;
+const typingDiv = document.getElementById("typing");
+
+function type(){
+  if(char < text[line].length){
+    typingDiv.innerHTML += text[line].charAt(char);
+    char++;
+    setTimeout(type, speed);
+  }else{
+    setTimeout(()=>{
+      typingDiv.innerHTML = "";
+      char = 0;
+      line = (line + 1) % text.length;
+      type();
+    },1500);
+  }
+}
+type();
+</script>
+
+</body>
+</html>
